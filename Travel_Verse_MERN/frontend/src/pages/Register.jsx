@@ -177,36 +177,51 @@ const Register = () => {
           </div>
 
           {/* Google Login Button */}
-        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-      
-      <div className="mb-4">
-        <GoogleLogin
-          onSuccess={async (credentialResponse) => {
-            try {
-              const res = await fetch(`${BASE_URL}/auth/google`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ token: credentialResponse.credential }),
-              });
+        {process.env.REACT_APP_GOOGLE_CLIENT_ID ? (
+          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            <div className="mb-4">
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  try {
+                    setLoading(true);
+                    setError(null);
+                    
+                    const res = await fetch(`${BASE_URL}/auth/google`, {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      credentials: "include",
+                      body: JSON.stringify({ token: credentialResponse.credential }),
+                    });
 
-              const data = await res.json();
-              if (data.success) {
-                dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
-                navigate("/");
-              }
-            } catch (err) {
-              console.error("Google login failed:", err);
-            }
-          }}
-          onError={() => {
-            console.error("Google login failed");
-          }}
-          useOneTap
-        />
-      </div>
-    </GoogleOAuthProvider> 
+                    const data = await res.json();
+                    if (data.success) {
+                      dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
+                      navigate("/");
+                    } else {
+                      setError(data.message || "Google login failed");
+                      setLoading(false);
+                    }
+                  } catch (err) {
+                    console.error("Google login failed:", err);
+                    setError("Google login failed. Please try again.");
+                    setLoading(false);
+                  }
+                }}
+                onError={(error) => {
+                  console.error("Google login error:", error);
+                  setError("Google authentication failed. Please try again.");
+                }}
+                useOneTap
+              />
+            </div>
+          </GoogleOAuthProvider>
+        ) : (
+          <div className="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg text-sm text-yellow-800 dark:text-yellow-200">
+            Google authentication is not configured. Please set REACT_APP_GOOGLE_CLIENT_ID in your .env file.
+          </div>
+        )} 
         </div>
       </div>
     </div>
