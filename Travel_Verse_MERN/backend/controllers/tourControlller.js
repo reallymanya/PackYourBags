@@ -71,9 +71,24 @@ export const getTourBySearch = async (req,res) => {
 
     const distance = parseInt(req.query.distance)
     const maxGroupSize = parseInt(req.query.maxGroupSize)
+    const searchQuery = req.query.city || req.query.query || ''
 
     try {
-        const tours = await Tour.find({city : new RegExp(req.query.city, 'i')}).populate('reviews')
+        // Search in multiple fields: city, title, and description
+        const searchRegex = new RegExp(searchQuery, 'i')
+        // #region agent log
+        console.log('Search query:', searchQuery);
+        // #endregion
+        const tours = await Tour.find({
+            $or: [
+                { city: searchRegex },
+                { title: searchRegex },
+                { desc: searchRegex }
+            ]
+        }).populate('reviews')
+        // #region agent log
+        console.log('Found tours:', tours.length);
+        // #endregion
         res.status(200).json({success:true,  message:'Successfully find all', data: tours})
         
        

@@ -6,42 +6,98 @@ import { sendVerificationEmail, sendPasswordResetEmail } from '../utils/email.js
 
 export const register = async(req,res) => {
     try {
+        // Validate required fields
+        if (!req.body.username || !req.body.email || !req.body.password) {
+            return res.status(400).json({
+                success: false,
+                message: 'Username, email, and password are required'
+            });
+        }
+
+        // Check if user already exists
+        const existingUser = await User.findOne({
+            $or: [
+                { email: req.body.email },
+                { username: req.body.username }
+            ]
+        });
+
+        if (existingUser) {
+            if (existingUser.email === req.body.email) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Email already registered'
+                });
+            }
+            if (existingUser.username === req.body.username) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Username already taken'
+                });
+            }
+        }
 
         const salt = bcrypt.genSaltSync(10)
         const hash = bcrypt.hashSync(req.body.password, salt)
 
-//
         const verificationToken = crypto.randomBytes(20).toString('hex');
         const verificationTokenExpires = Date.now() + 3600000;
-//
-
 
         const newUser = new User({
             username : req.body.username,
             email: req.body.email,
-            password:hash,
-            //
+            password: hash,
             isVerified: false,
             verificationToken,
-            verificationTokenExpires
-            //
-
+            verificationTokenExpires,
+            authMethod: 'local'
         })
 
         await newUser.save()
 
-        //
-        await sendVerificationEmail(newUser.email, verificationToken);
-        
-        //
+        // Try to send verification email, but don't fail registration if email fails
+        try {
+            await sendVerificationEmail(newUser.email, verificationToken);
+        } catch (emailError) {
+            console.error('Email sending failed:', emailError);
+            // Still return success, but warn user
+            return res.status(200).json({
+                success: true,
+                message: 'Registration successful, but verification email could not be sent. Please contact support.'
+            });
+        }
 
-        res.status(200).json({success:true, message: 'Registration successful. Please check your email for verification.'})
+        res.status(200).json({
+            success: true,
+            message: 'Registration successful. Please check your email for verification.'
+        })
 
         
     } catch (error) {
-        res.status(500).json({success:false, message: 'failed to created'})
+        console.error('Registration error:', error);
         
-        
+        // Handle specific MongoDB errors
+        if (error.code === 11000) {
+            const field = Object.keys(error.keyPattern)[0];
+            return res.status(400).json({
+                success: false,
+                message: `${field} already exists`
+            });
+        }
+
+        // Handle validation errors
+        if (error.name === 'ValidationError') {
+            const messages = Object.values(error.errors).map(err => err.message);
+            return res.status(400).json({
+                success: false,
+                message: messages.join(', ')
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            message: error.message || 'Registration failed. Please try again.'
+        })
     }
 }
 export const login = async(req,res) => {
@@ -53,6 +109,14 @@ export const login = async(req,res) => {
 
         if(!user){
             return res.status(404).json({success:false, message:"user not found"})
+        }
+
+        // Check if user is using Google auth
+        if (user.authMethod === 'google') {
+            return res.status(400).json({
+                success: false,
+                message: 'This account uses Google authentication. Please sign in with Google.'
+            });
         }
 
         // 

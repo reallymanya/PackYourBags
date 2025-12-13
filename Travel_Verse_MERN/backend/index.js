@@ -21,18 +21,40 @@ const __dirname = dirname(__filename);
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT
+const port = process.env.PORT || 5001
 
 
 //middleware
 app.use(express.json())
+// #region agent log
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('CORS origin will allow:', process.env.NODE_ENV === 'development' || !process.env.NODE_ENV ? ['http://localhost:3000', 'https://travel-verse-mern-frontend.onrender.com'] : 'https://travel-verse-mern-frontend.onrender.com');
+// #endregion
 // app.use(cors(corsOptions));
-app.use(cors({
+// Simplified CORS for development - allow all origins
+if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
+  // #region agent log
+  console.log('CORS: Allowing all origins in development mode');
+  // #endregion
+  app.use(cors({
+    origin: true, // Allow all origins in development
+    credentials: true,
+  }));
+} else {
+  app.use(cors({
     origin: 'https://travel-verse-mern-frontend.onrender.com',
-    credentials: true, // This is crucial!
-}));
+    credentials: true,
+  }));
+}
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
+// #region agent log
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path} - Origin: ${req.headers.origin || 'none'}`);
+  next();
+});
+// #endregion
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/tours', tourRoute)
 app.use('/api/v1/users', userRoute)
