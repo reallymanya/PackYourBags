@@ -18,6 +18,7 @@ import DevTourList from "../components/TourList/DevTourList";
 import HeritageTourList from "../components/TourList/HeritageTourList";
 import HoneyTourList from "../components/TourList/HoneyTourList";
 import HillTourList from "../components/TourList/HillTourList";
+import MyBookings from "../pages/MyBookings";
 
 
 const AppRoutes = () => {
@@ -46,6 +47,7 @@ const AppRoutes = () => {
         <Route path="/tours/search/getOldTours" element={<HeritageTourList/>} />
         <Route path="/tours/search/getHoneyTours" element={<HoneyTourList/>} />
         <Route path="/tours/search/getHillTours" element={<HillTourList/>} />
+        <Route path="/my-bookings" element={<MyBookings />} />
 
         
       </Routes>

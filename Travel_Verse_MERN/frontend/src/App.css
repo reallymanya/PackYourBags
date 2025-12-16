@@ -2,16 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Island+Moments&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --primary-color: rgb(34, 197, 113);
-  --secondary-color: rgb(34 197 94);
-  --heading-color: #0b2727;
-  --text-color: #6e7074;
-  --font-name: "Montserrat", sans-serif;
-  --subtitle-font-name: "Island Moments", cursive;
+  --primary-color: #8ed1fc;
+  /* Pastel Sky Blue */
+  --secondary-color: #fbd38d;
+  /* Pastel Orange/Sand */
+  --accent-color: #f687b3;
+  /* Soft Pink */
+  --heading-color: #4a5568;
+  /* Warm Gray */
+  --text-color: #718096;
+  /* Soft Gray */
+  --bg-color: #f7fafc;
+  /* Very light cool gray */
+  --card-bg: #ffffff;
+  --font-name: "Quicksand", sans-serif;
+  --subtitle-font-name: "Montserrat", sans-serif;
 }
 
 * {
@@ -22,10 +31,10 @@
 
 body {
   font-family: var(--font-name);
-}
-
-section {
-  padding: 50px 0px;
+  background: linear-gradient(180deg, #e0f7fa 0%, #ffffff 100%);
+  /* Airy gradient */
+  color: var(--text-color);
+  line-height: 1.6;
 }
 
 h1,
@@ -35,83 +44,114 @@ h4,
 h5,
 h6 {
   color: var(--heading-color);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 a {
   text-decoration: none;
   color: unset;
+  transition: color 0.3s ease;
 }
+
 ul {
   list-style: none;
 }
 
+section {
+  padding: 60px 0;
+}
+
+/* Soft Card Utility */
+.soft-card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+  /* Ultra soft shadow */
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.soft-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
 .primary__btn {
-  background: var(--secondary-color) !important;
+  background: var(--primary-color) !important;
+  color: #fff !important;
   border: none !important;
   border-radius: 50px !important;
-  padding: 0.4rem 1.5rem !important;
+  /* Pill shape */
+  padding: 0.6rem 2rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 15px rgba(142, 209, 252, 0.4);
+  transition: all 0.3s ease;
+}
+
+.primary__btn:hover {
+  background: #7ac1f0 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(142, 209, 252, 0.6);
 }
 
 .primary__btn a {
-  font-size: 1.1rem;
-  text-decoration: none;
-  color: #fff;
+  color: #fff !important;
 }
-.primary__btn a:hover {
-  color: inherit;
-}
+
 .secondary__btn {
   background: transparent !important;
-  color: #0b2727 !important;
-  border: none !important;
-  font-weight: 500 !important;
+  color: var(--heading-color) !important;
+  border: 2px solid var(--secondary-color) !important;
+  border-radius: 50px !important;
+  padding: 0.5rem 1.8rem !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease;
 }
 
-.secondary__btn a {
-  text-decoration: none;
-  font-size: 1.1rem;
-  color: var(--heading-color);
-}
-
-.secondary__btn a:hover {
-  color: inherit;
+.secondary__btn:hover {
+  background: var(--secondary-color) !important;
+  color: #fff !important;
 }
 
 .section__subtitle {
-  background: var(--secondary-color);
+  background: #e6fffa;
+  color: #38b2ac;
   font-family: var(--subtitle-font-name);
-  width: max-content;
-  padding: 0px 0.5rem;
-  padding-right: 1rem;
-
+  padding: 0.2rem 1rem;
   border-radius: 50px;
-  font-weight: 500;
-  font-size: 1.7rem;
-  color: var(--heading-color);
+  font-weight: 600;
+  font-size: 1.2rem;
+  display: inline-block;
 }
 
-
-@media only screen and(max-width :992px) {
-  .primary__btn a,
-  .secondary__btn a{
-    font-size: 0.9rem;
-  }
-
-  .primary__btn, .secondary__btn, .btn-dark{
-    padding: 0.2rem 1.1rem !important;
-
-  }
-
-  .section{
-    padding: 40px 0;
-  }
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-body {
-  @apply bg-white text-gray-900;
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-/* Dark mode styles */
+::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Dark mode adjustments (soft dark) */
 .dark body {
-  @apply bg-gray-900 text-white;
+  @apply bg-gray-900 text-gray-200;
+  background: #1a202c;
+}
+
+.dark .soft-card {
+  background: #2d3748;
+  border-color: #4a5568;
 }

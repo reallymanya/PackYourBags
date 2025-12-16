@@ -75,7 +75,7 @@ const Booking = ({ tour, avgRating }) => {
       <div className="booking dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-300">
         <div className="booking__top d-flex align-items-center justify-content-between mb-6">
           <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            ${price} <span className="text-gray-600 dark:text-gray-300">/per person</span>
+            ₹{price} <span className="text-gray-600 dark:text-gray-300">/per person</span>
           </h3>
           <span className="tour__rating d-flex align-items-center text-gray-900 dark:text-white">
             <i className="ri-star-fill text-yellow-500"></i>
@@ -133,17 +133,17 @@ const Booking = ({ tour, avgRating }) => {
           <ListGroup>
             <ListGroupItem className="border-0 px-0 bg-transparent">
               <h5 className="d-flex align-items-center gap-1 text-gray-900 dark:text-white">
-                RS{price} <i className="ri-close-line"></i> 1 person
+                ₹{price} <i className="ri-close-line"></i> 1 person
               </h5>
-              <span className="text-gray-600 dark:text-gray-300">RS{price}</span>
+              <span className="text-gray-600 dark:text-gray-300">₹{price}</span>
             </ListGroupItem>
             <ListGroupItem className="border-0 px-0 bg-transparent">
               <h5 className="text-gray-900 dark:text-white">Service Charge</h5>
-              <span className="text-gray-600 dark:text-gray-300">RS{serviceFee}</span>
+              <span className="text-gray-600 dark:text-gray-300">₹{serviceFee}</span>
             </ListGroupItem>
             <ListGroupItem className="border-0 px-0 bg-transparent">
               <h5 className="text-gray-900 dark:text-white">Total</h5>
-              <span className="text-gray-600 dark:text-gray-300">RS{totalAmount}</span>
+              <span className="text-gray-600 dark:text-gray-300">₹{totalAmount}</span>
             </ListGroupItem>
           </ListGroup>
 

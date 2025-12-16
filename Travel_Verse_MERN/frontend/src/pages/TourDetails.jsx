@@ -109,7 +109,7 @@ function TourDetails() {
                     {/* Price */}
                     <span className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-300">
                       <i className="ri-money-rupee-circle-line text-blue-500 dark:text-orange-500 text-lg"></i>
-                      <span className="text-gray-900 dark:text-white">₨.{price}/per person</span>
+                      <span className="text-gray-900 dark:text-white">₹{price}/per person</span>
                     </span>
 
                     {/* Distance */}
