@@ -60,12 +60,14 @@ export const register = async(req,res) => {
             await sendVerificationEmail(newUser.email, verificationToken);
         } catch (emailError) {
             console.error('Email sending failed:', emailError);
-            // Still return success, but warn user
-            return res.status(200).json({
-                success: true,
-                message: 'Registration successful, but verification email could not be sent. Please contact support.'
-            });
         }
+        
+        // ALWAYS LOG THE LINK FOR DEV PURPOSES
+        const verificationUrl = `http://localhost:3000/verify-email?token=${verificationToken}`;
+        console.log('---------------------------------------------------');
+        console.log('MANUAL VERIFICATION LINK (Click to verify):');
+        console.log(verificationUrl);
+        console.log('---------------------------------------------------');
 
         res.status(200).json({
             success: true,

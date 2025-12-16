@@ -5,9 +5,8 @@
 
 A full-featured travel platform offering secure bookings, personalized experiences, and comprehensive tour management.
 
-**Live Demo:** [Explore Now](https://travel-verse-mern-frontend.onrender.com/) <!-- Add your live URL here -->
 
-![TravelVerse Interface](client/public/showcase.gif) <!-- Add your showcase GIF -->
+
 
 ## 🔥 Key Features
 
@@ -45,12 +44,12 @@ A full-featured travel platform offering secure bookings, personalized experienc
 ## 🛠 Tech Stack
 
 ### **Frontend**
-- React.js with Hooks & Context API
+- React.js
 - Redux Toolkit for State Management
-- Axios for API Communication
 - React Router v6
-- Lottie Animations
-- Tailwind CSS + Dark Mode
+- Framer Motion
+- Tailwind CSS + Flowbite + Bootstrap
+
 
 ### **Backend**
 - Node.js & Express.js
@@ -58,10 +57,10 @@ A full-featured travel platform offering secure bookings, personalized experienc
 - JSON Web Tokens (JWT)
 - Passport.js (Google OAuth)
 - Nodemailer (Email Service)
-- Cloudinary (Media Storage)
+
 
 ### **Services**
-- SendGrid/Mailgun Email Service
+
 - MongoDB Atlas (Cloud Database)
 - Render/Vercel (Cloud Hosting)
 
@@ -119,39 +118,70 @@ Review Analytics Dashboard
 
 
 
-## **🚀 Getting Started**
-Prerequisites
-Node.js v18+
+## 🚀 Getting Started
 
-MongoDB Atlas Cluster
+Follow these steps to set up the project locally on your machine.
 
-Google OAuth Credentials
+### Prerequisites
 
-Cloudinary Account
+- **Node.js** v18+
+- **MongoDB** (Local or Atlas)
+- **Google Cloud Console Account** (for OAuth)
 
-## **Installation**
-1. Clone repo:
+### Installation
+
+#### 1. Clone the Repository
+
+```bash
 git clone https://github.com/SiddhantVgaikwad/Travel_Verse_MERN.git
+cd Travel_Verse_MERN
+```
 
-2.Configure environment (.env):
+#### 2. Backend Setup
 
-3.Install & Run: cd client && npm install && npm start
-cd ../server && npm install && npm run dev
+Navigate to the backend directory and install dependencies:
+
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file in the `backend` directory with the following variables:
+
+```env
+PORT=4000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET_KEY=your_jwt_secret_key
+GOOGLE_CLIENT_ID=your_google_client_id
+EMAIL_USER=your_email_address_for_nodemailer
+EMAIL_PASS=your_email_app_password
+```
 
 
 
-Contribute
-Fork the repository
+Start the backend server:
 
-Create feature branch:
+```bash
+npm run dev
+```
 
-git checkout -b feat/your-feature
-Commit changes:
+#### 3. Frontend Setup
 
-git commit -m 'feat: add amazing feature'
-Push & Create PR
+Open a new terminal, navigate to the frontend directory and install dependencies:
 
-📄 License
-MIT © Siddhant Gaikwad
+```bash
+cd ../frontend
+npm install
+```
 
-Crafted with ❤️ by Siddhant Gaikwad | Full Stack Developer
+Create a `.env` file in the `frontend` directory:
+
+```env
+REACT_APP_GOOGLE_CLIENT_ID=your_google_client_id
+```
+
+Start the frontend application:
+
+```bash
+npm start
+```

@@ -8,6 +8,7 @@ import userRoute from './routes/userRoute.js'
 import authRoute from './routes/authRoute.js'
 import reviewRoute from './routes/reviewRoute.js'
 import bookingRoute from './routes/bookingRoute.js'
+import paymentRoute from './routes/paymentRoute.js'
 
 //
 import { fileURLToPath } from 'url';
@@ -28,6 +29,8 @@ const port = process.env.PORT || 5001
 app.use(express.json())
 // #region agent log
 console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('Email Config Check - User:', process.env.EMAIL_USER ? 'Set' : 'Missing');
+console.log('Email Config Check - Pass:', process.env.EMAIL_PASS ? 'Set' : 'Missing');
 console.log('CORS origin will allow:', process.env.NODE_ENV === 'development' || !process.env.NODE_ENV ? ['http://localhost:3000', 'https://travel-verse-mern-frontend.onrender.com'] : 'https://travel-verse-mern-frontend.onrender.com');
 // #endregion
 // app.use(cors(corsOptions));
@@ -60,7 +63,7 @@ app.use('/api/v1/tours', tourRoute)
 app.use('/api/v1/users', userRoute)
 app.use('/api/v1/review', reviewRoute)
 app.use('/api/v1/booking', bookingRoute)
-
+app.use('/api/v1/payment', paymentRoute)
 //
 // Serve static files
 app.use(express.static(join(__dirname, '../frontend/build'))); // Adjust the path as needed

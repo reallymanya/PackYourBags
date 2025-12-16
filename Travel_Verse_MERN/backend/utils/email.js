@@ -1,16 +1,15 @@
 import nodemailer from 'nodemailer';
 
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
-
-
-
 export const sendVerificationEmail = async (email, token) => {
+  // Create transporter lazily to ensure process.env is loaded
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
   const verificationUrl = `http://localhost:3000/verify-email?token=${token}`;
 
 
@@ -45,6 +44,15 @@ export const sendVerificationEmail = async (email, token) => {
 };
 
 export const sendPasswordResetEmail = async (email, token) => {
+  // Create transporter lazily here as well
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
   const resetUrl = `http://localhost:3000/reset-password?token=${token}`;
 
   const emailTemplate = `
