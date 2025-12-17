@@ -165,7 +165,20 @@ Start the backend server:
 npm run dev
 ```
 
-#### 3. Frontend Setup
+#### 3. Database Seeding (Crucial for new features)
+
+To populate the database with the latest tours (including localized pricing and new categories) and initialize the subscription system, run the following command in the `backend` directory:
+
+```bash
+node seedMoreTours.js
+```
+
+This script will:
+- Clear existing tours
+- Insert updated tour data (Indian prices, images, categories)
+- Initialize necessary collections
+
+#### 4. Frontend Setup
 
 Open a new terminal, navigate to the frontend directory and install dependencies:
 
