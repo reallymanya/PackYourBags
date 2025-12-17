@@ -38,8 +38,27 @@ const Booking = ({ tour, avgRating }) => {
       return alert('Please Sign In');
     }
     
+    // Basic Field Check
     if (!booking.fullName || !booking.phone || !booking.bookAt || !booking.guestSize) {
         return alert('Please fill all required fields');
+    }
+
+    // Phone Validation
+    if (booking.phone.length !== 10) {
+        return alert('Phone number must be exactly 10 digits');
+    }
+
+    // Date Validation
+    const selectedDate = new Date(booking.bookAt);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time part for comparison
+    if (selectedDate < today) {
+        return alert('Booking date cannot be in the past');
+    }
+
+    // Guest Size Validation
+    if (Number(booking.guestSize) < 1) {
+        return alert('Guest size must be at least 1');
     }
 
     // Open Manual Dummy Payment Modal
@@ -100,7 +119,7 @@ const Booking = ({ tour, avgRating }) => {
             <FormGroup>
               <input
                 type="number"
-                placeholder="Phone"
+                placeholder="Phone (10 digits)"
                 id="phone"
                 required
                 onChange={handleChange}
@@ -121,6 +140,7 @@ const Booking = ({ tour, avgRating }) => {
                 placeholder="Guest"
                 id="guestSize"
                 required
+                min="1"
                 onChange={handleChange}
                 className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 text-gray-900 dark:text-white"
               />

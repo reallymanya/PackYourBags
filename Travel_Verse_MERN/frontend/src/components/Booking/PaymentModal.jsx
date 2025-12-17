@@ -18,6 +18,23 @@ const PaymentModal = ({ totalAmount, onClose, onPaymentSuccess }) => {
 
   const handlePayment = (e) => {
     e.preventDefault();
+
+    // Simple Validation
+    if (cardDetails.number.length < 16) {
+        return alert('Card number must be at least 16 digits');
+    }
+    if (cardDetails.cvv.length !== 3) {
+        return alert('CVV must be 3 digits');
+    }
+    if (!cardDetails.expiry.includes('/') || cardDetails.expiry.length !== 5) {
+        return alert('Expiry must be in MM/YY format');
+    }
+
+    const [month, year] = cardDetails.expiry.split('/');
+    if (parseInt(month) < 1 || parseInt(month) > 12) {
+        return alert('Invalid expiry month');
+    }
+
     setLoading(true);
 
     // Simulate API call delay

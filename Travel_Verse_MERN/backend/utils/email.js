@@ -85,3 +85,101 @@ export const sendPasswordResetEmail = async (email, token) => {
     html: emailTemplate
   });
 };
+
+export const sendSubscriptionEmail = async (email) => {
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  const emailTemplate = `
+      <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: auto; padding: 0; border: 1px solid #eee; border-radius: 12px; overflow: hidden;">
+        <div style="background-color: #e0f7fa; padding: 40px 20px; text-align: center;">
+             <h1 style="color: #0288d1; margin: 0; font-size: 28px;">Welcome to the Family! 🌍</h1>
+        </div>
+        <div style="padding: 40px 20px; background-color: #fff;">
+            <p style="color: #555; font-size: 16px; line-height: 1.6;">
+              Hi there,
+            </p>
+            <p style="color: #555; font-size: 16px; line-height: 1.6;">
+              Thank you for subscribing to the <strong>TravelVerse</strong> newsletter! We're thrilled to have you on board.
+            </p>
+            <p style="color: #555; font-size: 16px; line-height: 1.6;">
+              Get ready for a weekly dose of travel inspiration, exclusive deals, and hidden gems from around the world.
+            </p>
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="https://travel-verse-mern-frontend.onrender.com" style="background-color: #0288d1; color: white; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px;">
+                Start Exploring
+              </a>
+            </div>
+        </div>
+        <div style="background-color: #f9f9f9; padding: 20px; text-align: center; color: #999; font-size: 12px;">
+          &copy; ${new Date().getFullYear()} TravelVerse. All rights reserved.
+        </div>
+      </div>
+    `;
+
+  await transporter.sendMail({
+    from: '"TravelVerse" <noreply@travelverse.com>',
+    to: email,
+    subject: 'Welcome to TravelVerse! ✈️',
+    html: emailTemplate
+  });
+};
+
+export const sendBookingEmail = async (email, bookingDetails) => {
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  const { tourName, guestSize, bookAt, _id } = bookingDetails;
+
+  const emailTemplate = `
+      <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: auto; padding: 0; border: 1px solid #eee; border-radius: 12px; overflow: hidden;">
+        <div style="background-color: #e0f7fa; padding: 40px 20px; text-align: center;">
+             <h1 style="color: #00796b; margin: 0; font-size: 28px;">Booking Confirmed! ✅</h1>
+        </div>
+        <div style="padding: 40px 20px; background-color: #fff;">
+            <p style="color: #555; font-size: 16px; line-height: 1.6;">
+              Hello,
+            </p>
+            <p style="color: #555; font-size: 16px; line-height: 1.6;">
+              Great news! Your trip to <strong>${tourName}</strong> is confirmed.
+            </p>
+            
+            <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <p style="margin: 5px 0; color: #333;"><strong>Booking ID:</strong> <span style="font-family: monospace; color: #555;">${_id}</span></p>
+                <p style="margin: 5px 0; color: #333;"><strong>Tour:</strong> ${tourName}</p>
+                <p style="margin: 5px 0; color: #333;"><strong>Date:</strong> ${new Date(bookAt).toLocaleDateString()}</p>
+                <p style="margin: 5px 0; color: #333;"><strong>Guests:</strong> ${guestSize}</p>
+            </div>
+
+            <p style="color: #555; font-size: 16px; line-height: 1.6;">
+              You can view all your bookings in your dashboard.
+            </p>
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="https://travel-verse-mern-frontend.onrender.com/my-bookings" style="background-color: #00796b; color: white; padding: 14px 28px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px;">
+                View My Bookings
+              </a>
+            </div>
+        </div>
+        <div style="background-color: #f9f9f9; padding: 20px; text-align: center; color: #999; font-size: 12px;">
+          &copy; ${new Date().getFullYear()} TravelVerse. All rights reserved.
+        </div>
+      </div>
+    `;
+
+  await transporter.sendMail({
+    from: '"TravelVerse" <noreply@travelverse.com>',
+    to: email,
+    subject: `Booking Confirmed: ${tourName} 🎫`,
+    html: emailTemplate
+  });
+};

@@ -9,6 +9,7 @@ import authRoute from './routes/authRoute.js'
 import reviewRoute from './routes/reviewRoute.js'
 import bookingRoute from './routes/bookingRoute.js'
 import paymentRoute from './routes/paymentRoute.js'
+import subscribeRoute from './routes/subscribeRoute.js'
 
 //
 import { fileURLToPath } from 'url';
@@ -64,6 +65,7 @@ app.use('/api/v1/users', userRoute)
 app.use('/api/v1/review', reviewRoute)
 app.use('/api/v1/booking', bookingRoute)
 app.use('/api/v1/payment', paymentRoute)
+app.use('/api/v1/subscribe', subscribeRoute)
 //
 // Serve static files
 app.use(express.static(join(__dirname, '../frontend/build'))); // Adjust the path as needed

@@ -1,96 +1,136 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo4.png'
+import { BASE_URL } from '../../utils/config';
 
 const quickLinks = [
   { path: '/home', display: 'Home' },
   { path: '/about', display: 'About' },
   { path: '/tours', display: 'Tours' },
-  { path: '/gallery', display: 'Gallery' },
-  { path: '/login', display: 'Login' },
-  { path: '/register', display: 'Register' },
 ];
 
 const legalLinks = [
-  { path: '/disclaimer', display: 'Disclaimer' },
-  { path: '/terms', display: 'Terms of Use' },
   { path: '/privacy-policy', display: 'Privacy Policy' },
+  { path: '/terms', display: 'Terms of Use' },
 ];
 
 const Footer = () => {
   const year = new Date().getFullYear();
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState(null);
+
+  const handleSubscribe = async () => {
+    if (!email || !email.includes('@')) {
+        setMessage({ type: 'error', text: 'Please enter a valid email.' });
+        return;
+    }
+
+    try {
+        const res = await fetch(`${BASE_URL}/subscribe`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+        const result = await res.json();
+
+        if (res.ok) {
+            setMessage({ type: 'success', text: result.message });
+            setEmail('');
+        } else {
+            setMessage({ type: 'error', text: result.message });
+        }
+    } catch (err) {
+        setMessage({ type: 'error', text: 'Something went wrong. Try again.' });
+    }
+  };
 
   return (
-    <footer className="bg-gray-200 border-t-4 dark:border-t-black dark:bg-gray-800 text-black dark:text-white pt-8 pb-4 transition-colors duration-300">
+    <footer className="bg-gradient-to-b from-sky-50 to-white pt-16 pb-8 border-t border-sky-100">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center sm:text-left">
-          <div>
-            <img src={logo} alt="logo" className='dark:invert'/>
-            <h5 className="text-lg font-semibold mb-4 dark:text-white">About Us</h5>
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-              Stay updated with the latest travel tips, exclusive offers, and destination guides. Join our community of travelers and never miss out on exciting adventures!
+        <div className="flex flex-col lg:flex-row justify-between gap-12 mb-16">
+          
+          {/* Brand Section */}
+          <div className="lg:w-1/3 space-y-4">
+            <Link to="/" className="flex items-center gap-2 mb-4">
+               <img src={logo} alt="logo" className="h-10" />
+               <span className="text-xl font-bold text-gray-800">TravelVerse</span>
+            </Link>
+            <p className="text-gray-500 leading-relaxed font-medium max-w-sm">
+              Crafting unforgettable journeys that inspire connection and respect for our beautiful planet.
             </p>
+            
+            <div className="flex gap-4 mt-6">
+                <i className="ri-instagram-line bg-sky-100 text-sky-600 p-2 rounded-full hover:bg-sky-200 transition-colors cursor-pointer"></i>
+                <i className="ri-twitter-x-line bg-sky-100 text-sky-600 p-2 rounded-full hover:bg-sky-200 transition-colors cursor-pointer"></i>
+                <i className="ri-facebook-fill bg-sky-100 text-sky-600 p-2 rounded-full hover:bg-sky-200 transition-colors cursor-pointer"></i>
+            </div>
           </div>
           
-          <div>
-            <h5 className="text-lg font-semibold mb-4 dark:text-white">Quick Links</h5>
-            <ul>
-              {quickLinks.map((item, index) => (
-                <li key={index} className="mb-2">
-                  <Link to={item.path} className="hover:text-green-500 transition-all duration-200">
-                    {item.display}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          <div>
-            <h5 className="text-lg font-semibold mb-4 dark:text-white">Contact</h5>
-            <ul>
-              <li className="mb-2 flex items-center gap-3 dark:text-white">
-                <i className="ri-mail-line"></i>
-                <span >Email: siddhant33@gmail.com</span>
-              </li>
-              <li className="mb-2 flex items-center gap-3 dark:text-white">
-                <i className="ri-phone-line"></i>
-                <span>Phone: +12345678</span>
-              </li>
-            </ul>
+          {/* Links Section */}
+          <div className="grid grid-cols-2 gap-8 lg:w-1/3">
+             <div>
+                 <h5 className="font-bold text-gray-800 mb-6">Discovery</h5>
+                 <ul className="space-y-3">
+                     {quickLinks.map((item, index) => (
+                         <li key={index}>
+                             <Link to={item.path} className="text-gray-500 hover:text-sky-500 font-medium transition-colors no-underline">
+                                 {item.display}
+                             </Link>
+                         </li>
+                     ))}
+                 </ul>
+             </div>
+             <div>
+                 <h5 className="font-bold text-gray-800 mb-6">Support</h5>
+                 <ul className="space-y-3">
+                     <li><Link to="/contact" className="text-gray-500 hover:text-sky-500 font-medium transition-colors no-underline">Contact Us</Link></li>
+                     <li><Link to="/faq" className="text-gray-500 hover:text-sky-500 font-medium transition-colors no-underline">FAQ</Link></li>
+                 </ul>
+             </div>
           </div>
 
-          {/* Newsletter Section */}
-          <div className="bg-gray-300 dark:bg-gray-700 p-6 rounded-lg shadow-md transition-colors duration-300">
-            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-              Subscribe for Travel Updates
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              Get the latest travel news, exclusive offers, and destination guides straight to your inbox!
-            </p>
-            <div className="flex gap-4 mb-6">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-2/3 p-3 rounded-lg border border-gray-400 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-800 dark:text-white"
-              />
-              <button className="bg-blue-400 dark:bg-orange-400 text-white py-3 px-6 rounded-lg hover:bg-gray-600 transition-colors duration-300">
-                Subscribe
-              </button>
-            </div>
+          {/* Newsletter Section - Soft Card */}
+          <div className="lg:w-1/3">
+             <div className="bg-white p-8 rounded-[32px] shadow-lg border border-sky-50">
+                <h5 className="font-bold text-gray-800 mb-2">Join our Newsletter</h5>
+                <p className="text-gray-400 text-sm mb-6">Get travel inspiration & exclusive offers.</p>
+                
+                <div className="flex flex-col gap-3">
+                    <input 
+                        type="email" 
+                        placeholder="Your email address" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full px-6 py-3 rounded-full bg-gray-50 border border-gray-100 focus:outline-none focus:ring-2 focus:ring-sky-200 transition-all text-sm"
+                    />
+                    <button 
+                        onClick={handleSubscribe}
+                        className="w-full bg-sky-400 hover:bg-sky-500 text-white font-bold py-3 rounded-full shadow-sm transition-all transform hover:-translate-y-0.5"
+                    >
+                        Subscribe
+                    </button>
+                    {message && (
+                        <p className={`text-sm mt-2 text-center font-medium ${message.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                            {message.text}
+                        </p>
+                    )}
+                </div>
+             </div>
           </div>
         </div>
 
-        <div className="mt-8 border-t border-gray-500 pt-4 text-center text-sm">
-          <p className="mb-2">
-            {legalLinks.map((item, index) => (
-              <Link key={index} to={item.path} className="hover:text-green-500 transition-all duration-200 mx-2">
-                {item.display}
-              </Link>
-            ))}
-          </p>
-          <p className="text-gray-600 dark:text-gray-300">
-            &copy; {year}, Designed and Developed by <strong>Siddhant Gaikwad</strong>. All rights reserved.
-          </p>
+        {/* Footer Bottom */}
+        <div className="pt-8 border-t border-sky-100 flex flex-col md:flex-row justify-between items-center bg-transparent gap-4">
+            <p className="text-gray-400 text-sm font-medium">
+                &copy; {year} TravelVerse. All rights reserved.
+            </p>
+            <div className="flex gap-6">
+                 {legalLinks.map((item, index) => (
+                     <Link key={index} to={item.path} className="text-gray-400 hover:text-sky-500 text-sm font-medium transition-colors">
+                         {item.display}
+                     </Link>
+                 ))}
+            </div>
         </div>
       </div>
     </footer>

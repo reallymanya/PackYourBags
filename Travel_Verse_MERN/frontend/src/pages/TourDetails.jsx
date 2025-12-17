@@ -12,6 +12,7 @@ function TourDetails() {
   const { id } = useParams();
 
   const reviewMsgRef = useRef('');
+  const reviewPhotoRef = useRef(''); // Ref for photo URL
   const [tourRating, setTourRating] = useState(null);
   const { user } = useContext(AuthContext);
 
@@ -30,6 +31,7 @@ function TourDetails() {
   const submitHandler = async (e) => {
     e.preventDefault();
     const reviewText = reviewMsgRef.current.value;
+    const reviewPhoto = reviewPhotoRef.current.value;
 
     try {
       if (!user || user === undefined || user === null) {
@@ -46,6 +48,7 @@ function TourDetails() {
         username: user?.username,
         reviewText,
         rating: tourRating,
+        photo: reviewPhoto 
       };
 
       const res = await fetch(`${BASE_URL}/review/${id}`, {
@@ -65,10 +68,36 @@ function TourDetails() {
 
       alert('Review submitted successfully!');
       reviewMsgRef.current.value = ''; // Clear the input field
+      reviewPhotoRef.current.value = ''; 
       setTourRating(null); // Reset the rating
+       // Optionally reload logic here, but for now user might need to refresh to see it.
+       // Ideally we should update the local state to show it immediately.
+       window.location.reload(); 
+
     } catch (error) {
       console.error('Error submitting review:', error);
       alert('Failed to submit review. Please try again.');
+    }
+  };
+
+  const handleDeleteReview = async (reviewId) => {
+    if (!window.confirm("Are you sure you want to delete this review?")) return;
+
+    try {
+        const res = await fetch(`${BASE_URL}/review/${reviewId}`, {
+            method: 'DELETE',
+            credentials: 'include',
+        });
+        const result = await res.json();
+        
+        if (res.ok) {
+            alert(result.message);
+            window.location.reload(); // Refresh to show changes
+        } else {
+            alert(result.message);
+        }
+    } catch (err) {
+        alert(err.message);
     }
   };
 
@@ -136,13 +165,15 @@ function TourDetails() {
                   Reviews ({reviews?.length} reviews)
                 </h4>
                 <Form onSubmit={submitHandler}>
-                  <div className="flex items-center gap-3 mb-4 rating__group">
+                  <div className="flex items-center gap-1 mb-4 rating__group">
                     {[1, 2, 3, 4, 5].map((rating) => (
                       <span
                         key={rating}
                         onClick={() => setTourRating(rating)}
-                        className={`cursor-pointer text-gray-900 dark:text-white hover:text-yellow-500 dark:hover:text-yellow-500 ${
-                          tourRating === rating ? 'text-yellow-500' : ''
+                        className={`cursor-pointer text-lg ${
+                          tourRating && rating <= tourRating 
+                            ? 'text-yellow-500' 
+                            : 'text-gray-400 dark:text-gray-500 hover:text-yellow-500'
                         }`}
                       >
                         <i className="ri-star-s-fill" />
@@ -154,8 +185,14 @@ function TourDetails() {
                       type="text"
                       ref={reviewMsgRef}
                       placeholder="Share your thoughts"
-                      className="p-2 w-full border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-black"
+                      className="p-2 w-full border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-black mb-2"
                       required
+                    />
+                    <input
+                      type="text"
+                      ref={reviewPhotoRef}
+                      placeholder="Paste a photo URL (optional)"
+                      className="p-2 w-full border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-black"
                     />
                     <button
                       className="btn primary__btn mt-4 w-full py-2 bg-blue-500 dark:bg-orange-500 text-white hover:bg-blue-400 dark:hover:bg-orange-400 transition-colors duration-300"
@@ -169,7 +206,7 @@ function TourDetails() {
                   {reviews?.map((review) => (
                     <div
                       key={review._id}
-                      className="review__item flex gap-4 p-4 border-b border-gray-200 dark:border-gray-700"
+                      className="review__item flex gap-4 p-4 border-b border-gray-200 dark:border-gray-700 relative"
                     >
                       <img src={avatar} alt={review.username} className="w-16 h-16 rounded-full" />
                       <div className="w-full">
@@ -180,11 +217,28 @@ function TourDetails() {
                               {new Date(review.createdAt).toLocaleDateString('en-US', options)}
                             </p>
                           </div>
-                          <span className="flex items-center text-yellow-500">
-                            {review.rating} <i className="ri-star-s-fill" />
-                          </span>
+                          <div className="flex items-center gap-3">
+                              <span className="flex items-center text-yellow-500">
+                                {review.rating} <i className="ri-star-s-fill" />
+                              </span>
+                              {user?.username === review.username && (
+                                  <span 
+                                    className="cursor-pointer text-gray-400 hover:text-red-500 transition-colors"
+                                    onClick={() => handleDeleteReview(review._id)}
+                                    title="Delete Review"
+                                  >
+                                      <i className="ri-delete-bin-line text-xl"></i>
+                                  </span>
+                              )}
+                          </div>
                         </div>
                         <h6 className="mt-2 text-gray-700 dark:text-gray-300">{review.reviewText}</h6>
+                         {/* Display Review Photo if exists */}
+                         {review.photo && (
+                            <div className="mt-3">
+                                <img src={review.photo} alt="Review attachment" className="rounded-lg max-h-60 object-cover" />
+                            </div>
+                         )}
                       </div>
                     </div>
                   ))}
