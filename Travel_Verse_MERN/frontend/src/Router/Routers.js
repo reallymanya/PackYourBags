@@ -19,6 +19,7 @@ import HeritageTourList from "../components/TourList/HeritageTourList";
 import HoneyTourList from "../components/TourList/HoneyTourList";
 import HillTourList from "../components/TourList/HillTourList";
 import MyBookings from "../pages/MyBookings";
+import BudgetPlanner from "../pages/BudgetPlanner";
 
 
 const AppRoutes = () => {
@@ -48,6 +49,7 @@ const AppRoutes = () => {
         <Route path="/tours/search/getHoneyTours" element={<HoneyTourList/>} />
         <Route path="/tours/search/getHillTours" element={<HillTourList/>} />
         <Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="/budget-planner" element={<BudgetPlanner />} />
 
         
       </Routes>

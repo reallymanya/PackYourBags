@@ -71,6 +71,10 @@ const Header = () => {
                         Bookings
                     </Link>
 
+                    <Link to="/budget-planner" className="text-sm font-semibold text-gray-700 hover:text-black no-underline hover:no-underline">
+                        Budget
+                    </Link>
+
                     <button
                       onClick={logout}
                       className="bg-black text-white hover:bg-gray-800 px-5 py-2.5 rounded-full text-sm font-bold transition-all"
@@ -129,6 +133,7 @@ const Header = () => {
                                 {user.username}
                             </div>
                             <Link to="/my-bookings" className="block px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg no-underline hover:no-underline">My Bookings</Link>
+                            <Link to="/budget-planner" className="block px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg no-underline hover:no-underline">Budget Planner</Link>
                             <button onClick={logout} className="block w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg font-medium">Sign out</button>
                          </>
                     ) : (
