@@ -1,5 +1,4 @@
 import React from "react";
-import guide from '../assets/images/guide.png';
 
 
 const services = [
@@ -7,26 +6,24 @@ const services = [
     title: "Multi-Day Tours",
     description:
       "Explore different parts of India by joining one of our small-group Shared Tours, or enjoy personalised experiences with family and friends on our Private Tours.",
-    icon: <img src={'https://cdn-ilcgccf.nitrocdn.com/LaPRQTkcWNcIpckzKeqxvmfxuMNiCrjm/assets/images/optimized/rev-acd646b/realitytoursandtravel.com/wp-content/uploads/2024/10/Multi-Day-1.png'} alt="multi-day tour icon" className="h-10 w-10" />,
+    icon: <i className="ri-calendar-todo-line text-3xl text-white"></i>,
   },
   {
     title: "Best Tour Guide",
     description: "Explore with expert guides for an enriching travel experience.",
-    icon: (
-      <img src={guide} alt="icon" className="h-10 w-10" />
-    ),
+    icon: <i className="ri-user-star-line text-3xl text-white"></i>,
   },
   {
     title: "Independent Travel",
     description:
       "Travel independently and enjoy a worry-free experience. We plan your trip based on your needs and manage all bookings and logistics, so you can fully enjoy!",
-    icon: <img src={'https://cdn-ilcgccf.nitrocdn.com/LaPRQTkcWNcIpckzKeqxvmfxuMNiCrjm/assets/images/optimized/rev-acd646b/realitytoursandtravel.com/wp-content/uploads/2024/10/Baggage.png'} alt="independent travel icon" className="h-10 w-10" />,
+    icon: <i className="ri-luggage-cart-line text-3xl text-white"></i>,
   },
   {
     title: "Other Services",
     description:
       "Navigate India with our expert services, including Corporate Tours, School & College Tours, Filming & Media Support, Vehicle & Driver Hire, and Emergency Help.",
-    icon: <img src={'https://cdn-ilcgccf.nitrocdn.com/LaPRQTkcWNcIpckzKeqxvmfxuMNiCrjm/assets/images/optimized/rev-acd646b/realitytoursandtravel.com/wp-content/uploads/2024/10/Services-1.png'} alt="service icon" className="h-10 w-10" />,
+    icon: <i className="ri-customer-service-2-line text-3xl text-white"></i>,
   },
 ];
 

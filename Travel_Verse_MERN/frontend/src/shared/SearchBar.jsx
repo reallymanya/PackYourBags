@@ -103,7 +103,7 @@ const SearchBar = () => {
             <input
               ref={locationRef}
               type="text"
-              placeholder="Which country would you like to explore?"
+              placeholder="Where would you like your next adventure?"
               aria-label="Search destinations"
               className="w-full pl-10 pr-4 py-3 bg-gray-100/70 dark:bg-gray-700/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-orange-400 text-gray-700 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
               onKeyDown={handleKeyDown}

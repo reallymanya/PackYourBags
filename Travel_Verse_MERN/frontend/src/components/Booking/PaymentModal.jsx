@@ -1,38 +1,38 @@
-import React, { useState, useEffect } from "react";
-import "./payment-modal.css"; // We'll create this css file
+import React, { useState } from "react";
+import "./payment-modal.css";
 import { Button } from "reactstrap";
 
 const PaymentModal = ({ totalAmount, onClose, onPaymentSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [cardDetails, setCardDetails] = useState({
-    number: "",
-    expiry: "",
-    cvv: "",
-    name: "",
+  const [formData, setFormData] = useState({
+    num: "",
+    date: "",
+    pin: "",
+    holder: "",
   });
 
   const handleChange = (e) => {
-    setCardDetails({ ...cardDetails, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handlePayment = (e) => {
     e.preventDefault();
 
     // Simple Validation
-    if (cardDetails.number.length < 16) {
-        return alert('Card number must be at least 16 digits');
+    if (formData.num.length < 16) {
+        return alert('Please enter 16 digits');
     }
-    if (cardDetails.cvv.length !== 3) {
-        return alert('CVV must be 3 digits');
+    if (formData.pin.length !== 3) {
+        return alert('Security code must be 3 digits');
     }
-    if (!cardDetails.expiry.includes('/') || cardDetails.expiry.length !== 5) {
-        return alert('Expiry must be in MM/YY format');
+    if (!formData.date.includes('/') || formData.date.length !== 5) {
+        return alert('Valid thru must be in MM/YY format');
     }
 
-    const [month, year] = cardDetails.expiry.split('/');
+    const [month] = formData.date.split('/');
     if (parseInt(month) < 1 || parseInt(month) > 12) {
-        return alert('Invalid expiry month');
+        return alert('Invalid month');
     }
 
     setLoading(true);
@@ -53,7 +53,7 @@ const PaymentModal = ({ totalAmount, onClose, onPaymentSuccess }) => {
     <div className="payment-modal-overlay">
       <div className="payment-modal bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
         <div className="modal-header">
-          <h3 className="text-xl font-bold">Secure Payment</h3>
+          <h3 className="text-xl font-bold">Complete Booking</h3>
           <button onClick={onClose} className="close-btn text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
             &times;
           </button>
@@ -77,11 +77,11 @@ const PaymentModal = ({ totalAmount, onClose, onPaymentSuccess }) => {
             </div>
 
             <div className="form-group mb-4">
-              <label className="block text-sm font-medium mb-1">Card Number</label>
+              <label className="block text-sm font-medium mb-1">16-Digit Number</label>
               <input
-                type="text"
-                name="number"
-                placeholder="0000 0000 0000 0000"
+                type="tel"
+                name="num"
+                placeholder="Enter your 16 digits"
                 maxLength="19"
                 required
                 className="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
@@ -91,10 +91,10 @@ const PaymentModal = ({ totalAmount, onClose, onPaymentSuccess }) => {
 
             <div className="flex gap-4 mb-4">
               <div className="w-1/2">
-                <label className="block text-sm font-medium mb-1">Expiry Date</label>
+                <label className="block text-sm font-medium mb-1">Valid Thru</label>
                 <input
-                  type="text"
-                  name="expiry"
+                  type="tel"
+                  name="date"
                   placeholder="MM/YY"
                   maxLength="5"
                   required
@@ -103,11 +103,11 @@ const PaymentModal = ({ totalAmount, onClose, onPaymentSuccess }) => {
                 />
               </div>
               <div className="w-1/2">
-                <label className="block text-sm font-medium mb-1">CVV</label>
+                <label className="block text-sm font-medium mb-1">Security Code</label>
                 <input
-                  type="password"
-                  name="cvv"
-                  placeholder="123"
+                  type="tel"
+                  name="pin"
+                  placeholder="3 digits"
                   maxLength="3"
                   required
                   className="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
@@ -117,11 +117,11 @@ const PaymentModal = ({ totalAmount, onClose, onPaymentSuccess }) => {
             </div>
 
             <div className="form-group mb-6">
-              <label className="block text-sm font-medium mb-1">Card Holder Name</label>
+              <label className="block text-sm font-medium mb-1">Name</label>
               <input
                 type="text"
-                name="name"
-                placeholder="Name on Card"
+                name="holder"
+                placeholder="Your full name"
                 required
                 className="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
                 onChange={handleChange}

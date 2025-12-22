@@ -168,7 +168,7 @@ const newTours = [
         address: "Rajasthan, India",
         distance: 200, price: 35000, maxGroupSize: 12,
         desc: "Forts, palaces, and vibrant colors of the Pink City.",
-        photo: "/tour-images/tour-img06.jpg",
+        photo: "/tour-images/rajasthan_royal.png",
         featured: true, cul: true, old: true
     },
     {

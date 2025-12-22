@@ -3,17 +3,6 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo4.png'
 import { BASE_URL } from '../../utils/config';
 
-const quickLinks = [
-  { path: '/home', display: 'Home' },
-  { path: '/about', display: 'About' },
-  { path: '/tours', display: 'Tours' },
-];
-
-const legalLinks = [
-  { path: '/privacy-policy', display: 'Privacy Policy' },
-  { path: '/terms', display: 'Terms of Use' },
-];
-
 const Footer = () => {
   const year = new Date().getFullYear();
   const [email, setEmail] = useState('');
@@ -47,90 +36,57 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-b from-sky-50 to-white pt-16 pb-8 border-t border-sky-100">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row justify-between gap-12 mb-16">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-12 mb-12">
           
           {/* Brand Section */}
-          <div className="lg:w-1/3 space-y-4">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-               <img src={logo} alt="logo" className="h-10" />
-               <span className="text-xl font-bold text-gray-800">TravelVerse</span>
+          <div className="lg:w-1/2 text-center lg:text-left">
+            <Link to="/" className="inline-flex items-center gap-3 mb-4">
+               <img src={logo} alt="logo" className="h-12" />
+               <span className="text-2xl font-bold text-gray-800">TravelVerse</span>
             </Link>
-            <p className="text-gray-500 leading-relaxed font-medium max-w-sm">
-              Crafting unforgettable journeys that inspire connection and respect for our beautiful planet.
+            <p className="text-gray-500 leading-relaxed font-medium max-w-md mx-auto lg:mx-0">
+              Crafting unforgettable journeys that inspire connection and respect for our beautiful planet. Your adventure awaits!
             </p>
-            
-            <div className="flex gap-4 mt-6">
-                <i className="ri-instagram-line bg-sky-100 text-sky-600 p-2 rounded-full hover:bg-sky-200 transition-colors cursor-pointer"></i>
-                <i className="ri-twitter-x-line bg-sky-100 text-sky-600 p-2 rounded-full hover:bg-sky-200 transition-colors cursor-pointer"></i>
-                <i className="ri-facebook-fill bg-sky-100 text-sky-600 p-2 rounded-full hover:bg-sky-200 transition-colors cursor-pointer"></i>
-            </div>
-          </div>
-          
-          {/* Links Section */}
-          <div className="grid grid-cols-2 gap-8 lg:w-1/3">
-             <div>
-                 <h5 className="font-bold text-gray-800 mb-6">Discovery</h5>
-                 <ul className="space-y-3">
-                     {quickLinks.map((item, index) => (
-                         <li key={index}>
-                             <Link to={item.path} className="text-gray-500 hover:text-sky-500 font-medium transition-colors no-underline">
-                                 {item.display}
-                             </Link>
-                         </li>
-                     ))}
-                 </ul>
-             </div>
-             <div>
-                 <h5 className="font-bold text-gray-800 mb-6">Support</h5>
-                 <ul className="space-y-3">
-                     <li><Link to="/contact" className="text-gray-500 hover:text-sky-500 font-medium transition-colors no-underline">Contact Us</Link></li>
-                     <li><Link to="/faq" className="text-gray-500 hover:text-sky-500 font-medium transition-colors no-underline">FAQ</Link></li>
-                 </ul>
-             </div>
           </div>
 
-          {/* Newsletter Section - Soft Card */}
-          <div className="lg:w-1/3">
-             <div className="bg-white p-8 rounded-[32px] shadow-lg border border-sky-50">
-                <h5 className="font-bold text-gray-800 mb-2">Join our Newsletter</h5>
-                <p className="text-gray-400 text-sm mb-6">Get travel inspiration & exclusive offers.</p>
+          {/* Newsletter Section - Expanded */}
+          <div className="lg:w-1/2 w-full max-w-lg">
+             <div className="bg-white p-8 rounded-3xl shadow-xl border border-sky-100">
+                <div className="flex items-center gap-3 mb-3">
+                  <i className="ri-mail-send-line text-2xl text-sky-500"></i>
+                  <h5 className="font-bold text-xl text-gray-800">Join our Newsletter</h5>
+                </div>
+                <p className="text-gray-500 mb-6">Get travel inspiration, exclusive offers, and trip ideas delivered to your inbox.</p>
                 
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col sm:flex-row gap-3">
                     <input 
                         type="email" 
-                        placeholder="Your email address" 
+                        placeholder="Enter your email address" 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-6 py-3 rounded-full bg-gray-50 border border-gray-100 focus:outline-none focus:ring-2 focus:ring-sky-200 transition-all text-sm"
+                        className="flex-1 px-5 py-3 rounded-full bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-300 transition-all"
                     />
                     <button 
                         onClick={handleSubscribe}
-                        className="w-full bg-sky-400 hover:bg-sky-500 text-white font-bold py-3 rounded-full shadow-sm transition-all transform hover:-translate-y-0.5"
+                        className="bg-sky-500 hover:bg-sky-600 text-white font-bold px-8 py-3 rounded-full shadow-md transition-all transform hover:-translate-y-0.5 hover:shadow-lg"
                     >
                         Subscribe
                     </button>
-                    {message && (
-                        <p className={`text-sm mt-2 text-center font-medium ${message.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
-                            {message.text}
-                        </p>
-                    )}
                 </div>
+                {message && (
+                    <p className={`text-sm mt-3 text-center font-medium ${message.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                        {message.text}
+                    </p>
+                )}
              </div>
           </div>
         </div>
 
         {/* Footer Bottom */}
-        <div className="pt-8 border-t border-sky-100 flex flex-col md:flex-row justify-between items-center bg-transparent gap-4">
+        <div className="pt-8 border-t border-sky-100 flex justify-center items-center">
             <p className="text-gray-400 text-sm font-medium">
                 &copy; {year} TravelVerse. All rights reserved.
             </p>
-            <div className="flex gap-6">
-                 {legalLinks.map((item, index) => (
-                     <Link key={index} to={item.path} className="text-gray-400 hover:text-sky-500 text-sm font-medium transition-colors">
-                         {item.display}
-                     </Link>
-                 ))}
-            </div>
         </div>
       </div>
     </footer>

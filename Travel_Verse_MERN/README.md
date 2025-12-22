@@ -113,7 +113,7 @@ Follow these steps to set up the project locally on your machine.
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/SiddhantVgaikwad/Travel_Verse_MERN.git
+git clone https://github.com/reallymanya/PackYourBags
 cd Travel_Verse_MERN
 ```
 

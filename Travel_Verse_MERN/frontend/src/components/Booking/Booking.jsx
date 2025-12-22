@@ -171,7 +171,7 @@ const Booking = ({ tour, avgRating }) => {
             className="btn primary__btn w-100 mt-4 bg-blue-500 text-white hover:bg-blue-400 dark:bg-orange-500 dark:hover:bg-orange-400 transition-colors duration-300"
             onClick={handleBookNow}
           >
-            Pay with Razorpay
+            Book Now
           </Button>
         </div>
       </div>
