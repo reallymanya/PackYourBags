@@ -85,36 +85,16 @@ Review Analytics Dashboard
 
 ## **📸 Feature Showcase **
 
-**1. Homepage(Light Theme)**
-![image](https://github.com/user-attachments/assets/9d434387-b875-4300-8150-879f02622fe2)
+**1. Homepage**
+![alt text](image.png)
 
-**2. Homepage(Dark Theme)**
-![image](https://github.com/user-attachments/assets/00f5c932-6b46-47d9-a2dc-60f53f4ab09b)
-![image](https://github.com/user-attachments/assets/1e59098e-516c-44d9-90ca-3e5b2a728d71)
-![image](https://github.com/user-attachments/assets/7e44570d-dfbf-4c0e-b1ec-d08a822f78ac)
-![image](https://github.com/user-attachments/assets/755301cd-9f25-419f-b879-12928468e7cd)
+![alt text](image-1.png)
+![alt text](image-2.png)
 
 
-
-
-**3. Home page mobile view(Dark Theme)**
-![image](https://github.com/user-attachments/assets/8beb4b9d-9c98-499d-9ab7-32ac94b757cb)
-
-
-**5. tours List(Dark Theme)**
-![image](https://github.com/user-attachments/assets/2314c64d-53a2-4814-b422-0be981053a71)
-
-**6. tour details and booking(Dark Theme)**
-![image](https://github.com/user-attachments/assets/dab05903-eec3-451b-bc40-ea3d4967ca54)
-
-**7. Login(Dark Theme)**
-![image](https://github.com/user-attachments/assets/f071149d-e265-4f53-87b5-03a6d863bed5)
-
-
-
-
-
-
+**2. tour details and booking**
+![alt text](image-3.png)
+![alt text](image-4.png)
 
 
 
