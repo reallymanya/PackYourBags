@@ -144,10 +144,21 @@ export const login = async(req,res) => {
              process.env.JWT_SECRET_KEY,
             {expiresIn : "15d"} );
 
-            res.cookie('accessToken', token, {
+            const cookieOptions = {
                 httpOnly: true,
                 expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000)
-            }).status(200).json({success:true, message: 'successfully Login', token, role,
+            };
+            
+            // For production (HTTPS), use secure cookies with sameSite: 'none'
+            // For development (HTTP localhost), use sameSite: 'lax'
+            if (process.env.NODE_ENV === 'production') {
+                cookieOptions.sameSite = 'none';
+                cookieOptions.secure = true;
+            } else {
+                cookieOptions.sameSite = 'lax';
+            }
+            
+            res.cookie('accessToken', token, cookieOptions).status(200).json({success:true, message: 'successfully Login', token, role,
                 data: {...rest},
             })
         

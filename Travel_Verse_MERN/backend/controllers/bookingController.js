@@ -43,10 +43,8 @@ export const getBooking = async(req,res) => {
 
 
 export const getAllBooking = async(req,res) => {
-    const id =  req.params.id
-
     try {
-        const books =await Booking.findById(id)
+        const books = await Booking.find({}).sort({ createdAt: -1 })
         res.status(200).json({success:true, message:"successful" ,data:books})
     } catch (error) {
         res.status(500).json({success: false, message: error})

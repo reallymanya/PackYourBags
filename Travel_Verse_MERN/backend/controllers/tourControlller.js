@@ -55,12 +55,29 @@ export const getSingleTour = async(req, res) => {
 //get all tour
 export const getAllTour = async(req, res) => {
     const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit) || 8; // Default limit is 8, but can be overridden
  
     try {
-        const tours = await Tour.find({}).populate('reviews').skip(page * 8).limit(8)
-        res.status(200).json({success:true, count:tours.length, message:'Successfully find all', data: tours})
+        // If page is provided, use pagination. Otherwise, return all tours (for admin)
+        let tours;
+        if (!isNaN(page) && page >= 0) {
+            tours = await Tour.find({}).populate('reviews').skip(page * limit).limit(limit);
+        } else {
+            // No pagination - return all tours (useful for admin panel)
+            tours = await Tour.find({}).populate('reviews');
+        }
+        
+        const totalCount = await Tour.countDocuments({});
+        res.status(200).json({
+            success: true, 
+            count: tours.length,
+            total: totalCount,
+            message: 'Successfully find all', 
+            data: tours
+        });
     } catch (error) {
-        res.status(404).json({success:false, message: 'failed'})
+        console.error('Error fetching tours:', error);
+        res.status(404).json({success:false, message: 'failed to fetch tours'});
     }
 }
 

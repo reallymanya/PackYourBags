@@ -20,6 +20,14 @@ import HoneyTourList from "../components/TourList/HoneyTourList";
 import HillTourList from "../components/TourList/HillTourList";
 import MyBookings from "../pages/MyBookings";
 import BudgetPlanner from "../pages/BudgetPlanner";
+import ItineraryPlanner from "../pages/ItineraryPlanner";
+import AdminLayout from "../components/Admin/AdminLayout";
+import AdminProtectedRoute from "../components/Admin/AdminProtectedRoute";
+import AdminDashboard from "../pages/Admin/AdminDashboard";
+import AdminTours from "../pages/Admin/AdminTours";
+import AdminUsers from "../pages/Admin/AdminUsers";
+import AdminBookings from "../pages/Admin/AdminBookings";
+import AdminReviews from "../pages/Admin/AdminReviews";
 
 
 const AppRoutes = () => {
@@ -50,7 +58,59 @@ const AppRoutes = () => {
         <Route path="/tours/search/getHillTours" element={<HillTourList/>} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/budget-planner" element={<BudgetPlanner />} />
+        <Route path="/itinerary-planner" element={<ItineraryPlanner />} />
 
+        {/* Admin Routes */}
+        <Route
+          path="/admin"
+          element={
+            <AdminProtectedRoute>
+              <AdminLayout>
+                <AdminDashboard />
+              </AdminLayout>
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/tours"
+          element={
+            <AdminProtectedRoute>
+              <AdminLayout>
+                <AdminTours />
+              </AdminLayout>
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <AdminProtectedRoute>
+              <AdminLayout>
+                <AdminUsers />
+              </AdminLayout>
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/bookings"
+          element={
+            <AdminProtectedRoute>
+              <AdminLayout>
+                <AdminBookings />
+              </AdminLayout>
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reviews"
+          element={
+            <AdminProtectedRoute>
+              <AdminLayout>
+                <AdminReviews />
+              </AdminLayout>
+            </AdminProtectedRoute>
+          }
+        />
         
       </Routes>
     </AnimatePresence>

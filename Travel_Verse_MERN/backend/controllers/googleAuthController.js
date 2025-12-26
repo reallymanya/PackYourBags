@@ -70,11 +70,21 @@ export const googleAuth = async (req, res) => {
 
     const {password, ...rest} = user._doc;
 
-    res.cookie('accessToken', jwtToken, {
+    const cookieOptions = {
       httpOnly: true,
-      expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
-      credentials: true
-    }).status(200).json({
+      expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000)
+    };
+    
+    // For production (HTTPS), use secure cookies with sameSite: 'none'
+    // For development (HTTP localhost), use sameSite: 'lax'
+    if (process.env.NODE_ENV === 'production') {
+      cookieOptions.sameSite = 'none';
+      cookieOptions.secure = true;
+    } else {
+      cookieOptions.sameSite = 'lax';
+    }
+    
+    res.cookie('accessToken', jwtToken, cookieOptions).status(200).json({
       success: true,
       message: 'Google login successful',
       token: jwtToken,

@@ -4,7 +4,10 @@ import Review from '../models/Review.js'
 export const createReview = async (req,res) => {
 
     const tourId = req.params.tourId
-    const newReview = new Review({...req.body}) 
+    const newReview = new Review({
+        ...req.body,
+        productId: tourId  // Set the productId to link the review to the tour
+    }) 
  try {
 
     const savedReview = await newReview.save()
@@ -27,17 +30,35 @@ export const createReview = async (req,res) => {
 export const deleteReview = async (req, res) => {
     const id = req.params.id;
     try {
-        await Review.findByIdAndDelete(id);
-        
-        // Optionally, remove the review ID from the Tour's reviews array
-        // This requires finding the tour that has this review, or passing the tourId
-        // For simplicity and performance, we can skip this if the Tour schema uses virtual populate
-        // But since we pushed it in createReview, we should ideally pull it.
-        // However, a simple delete is often enough if the frontend re-fetches or filters.
-        // Let's stick to simple delete for now to "do fast" as requested.
+        const review = await Review.findById(id);
+        if (!review) {
+            return res.status(404).json({ success: false, message: "Review not found" });
+        }
 
+        // Remove review from tour's reviews array
+        await Tour.findByIdAndUpdate(review.productId, {
+            $pull: { reviews: id }
+        });
+
+        await Review.findByIdAndDelete(id);
         res.status(200).json({ success: true, message: "Review deleted successfully" });
     } catch (error) {
         res.status(500).json({ success: false, message: "Failed to delete review" });
+    }
+};
+
+export const getAllReviews = async (req, res) => {
+    try {
+        const reviews = await Review.find({})
+            .populate({
+                path: 'productId',
+                select: 'title',
+                model: 'Tour'
+            })
+            .sort({ createdAt: -1 });
+        res.status(200).json({ success: true, message: "Reviews fetched successfully", data: reviews });
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        res.status(500).json({ success: false, message: "Failed to fetch reviews" });
     }
 };

@@ -57,7 +57,9 @@ const Login = () => {
         return;
       }
 
-      dispatch({ type: "LOGIN_SUCCESS", payload: result.data });
+      // Include role in user data
+      const userData = { ...result.data, role: result.role };
+      dispatch({ type: "LOGIN_SUCCESS", payload: userData });
       navigate("/");
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err.message });
@@ -204,7 +206,9 @@ const Login = () => {
 
                     const data = await res.json();
                     if (data.success) {
-                      dispatch({ type: "LOGIN_SUCCESS", payload: data.data });
+                      // Include role in user data
+                      const userData = { ...data.data, role: data.role };
+                      dispatch({ type: "LOGIN_SUCCESS", payload: userData });
                       navigate("/");
                     } else {
                       setError(data.message || "Google login failed");
